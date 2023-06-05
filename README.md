@@ -11,13 +11,12 @@ To run the game on your local machine, follow these steps:
 
     Clone the repository using the following command:
 
-    git clone https://github.com/luan30092000/2D_Game.git
+        git clone https://github.com/luan30092000/2D_Game.git
 
-    Open the project in IntelliJ IDE.
-
-    Build the project using the IDE's build tools or by running the necessary commands.
-
-    Run the game by executing the main class.
+    Insde 2D_Game folder, open Terminal and enter commands:
+        
+        cd GalacticGreaseMonkey/target
+        java -jar GalacticGreaseMonkey-1.1-SNAPSHOT.jar
 
 # Features
 
