@@ -13,7 +13,7 @@ To run the game on your local machine, follow these steps:
 
         git clone https://github.com/luan30092000/2D_Game.git
 
-    Insde 2D_Game folder, open Terminal and enter commands:
+    Inside 2D_Game folder, open Terminal and enter commands:
         
         cd GalacticGreaseMonkey/target
         java -jar GalacticGreaseMonkey-1.1-SNAPSHOT.jar
