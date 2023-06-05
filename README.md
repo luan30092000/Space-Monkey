@@ -23,7 +23,8 @@ To run the game on your local machine, follow these steps:
 
     Feature 1: Game setting GUI
     Feature 2: 3 levels of the game
-    Feature 3: Instant restart
+    Feature 3: Implemented pathfinder algorithm for bots 
+    Feature 4: Instant restart
 
 
 # Design Patterns
