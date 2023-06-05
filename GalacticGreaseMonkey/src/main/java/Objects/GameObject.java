@@ -14,15 +14,42 @@ import java.util.Objects;
  * @author Jason
  */
 public class GameObject {
+
     GamePanel gp;
+
+    /**
+     * Object name
+     */
     public String name;
+
+    /**
+     * Collision status
+     */
     public boolean collision = false;
-    public int worldX, worldY;
-    public Rectangle hitBox = new Rectangle(0,0, 50, 50);
-    public int solidAreaDefaultX = 0;
-    public int solidAreaDefaultY = 0;
+
+    /**
+     * Object location on map
+     */
+    public int objectX, objectY;
+
+    /**
+     * Actual hit box for object
+     */
+    public Rectangle hitBox = new Rectangle(0,0, 48, 48);
+
+    /**
+     * Default hit box for object X and Y
+     */
+    public int hitBoxDefaultX = 0;
+    public int hitBoxDefaultY = 0;
+
     public int timeSinceCreated = 0;
-    public BufferedImage down1;
+
+    /**
+     * Default image for all object.
+     * Since object are not moving, just need 1 image to represent
+     */
+    public BufferedImage objectImage;
 
     /**
      * This method is constructor of GameObject class.
@@ -32,6 +59,11 @@ public class GameObject {
         this.gp = gp;
     }
 
+    /**
+     * Set up image for object
+     * @param imagePath path to images resource
+     * @return  return object image
+     */
     public BufferedImage setup(String imagePath){
         UtilityTool uTool = new UtilityTool();
         BufferedImage image = null;
@@ -51,8 +83,8 @@ public class GameObject {
      */
     public void draw(Graphics2D g2) {
 
-        BufferedImage image = down1;
+        BufferedImage image = objectImage;
 
-        g2.drawImage(image, worldX, worldY, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, objectX, objectY, gp.tileSize, gp.tileSize, null);
     }
 }

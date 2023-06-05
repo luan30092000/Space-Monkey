@@ -39,9 +39,9 @@ public class Player extends Entity{
         hitBox = new Rectangle(8,12, 26, 26);
         this.gp = gp;
         this.keyH = keyH;
-        worldX = 48;
+        worldX = 48;    //player starting position
         worldY = 48;
-        solidAreaDefaultX = hitBox.x;
+        solidAreaDefaultX = hitBox.x;   //player hitboxes
         solidAreaDefaultY = hitBox.y;
 
         attackArea.width = 36;
@@ -85,6 +85,9 @@ public class Player extends Entity{
     public void update() {
         // Handle WASD movement
 
+        /*
+            checking to see if player has made a move
+         */
         if (keyH.upPressed || keyH.downPressed || keyH.rightPressed || keyH.leftPressed) {
             if(keyH.upPressed) {
                 direction = "up";
@@ -132,22 +135,32 @@ public class Player extends Entity{
                 }
             }
 
+            /*
+                Sprite counter is incremented iterations of this method.
+                Once it reaches 10, the players sprite is changed to a another mimicking movement
+             */
             spriteCounter++;
             if (spriteCounter > 10) {
+                /*
+                    Only 2 sprites for each directions for player
+                    , which is why it only switches between 1 & 2 as inputs
+                 */
                 if (spriteNum == 1) {
                     spriteNum = 2;
                 }
                 else if (spriteNum == 2) {
                     spriteNum = 1;
                 }
-                spriteCounter = 0;
-            }
 
-            if (score < 0){ // Game over if score is less than 0
-                gp.currentGameState = gp.loseState;
+                // reseting sprite counter so it can continiously switch sprites after reaching 10
+                spriteCounter = 0;
             }
         }
 
+        /*
+            The if block states that you can only use projectiles when there is not an active projectile on the map
+            , the cooldown of 90 updates has been met, and the player has actually pressed the space button
+         */
         if(gp.keyH.spacePressed && !projectile.alive && projectileCounter > 90) {
             projectileCounter = 0;
             // Set default coordinates, direction, and user
@@ -162,13 +175,7 @@ public class Player extends Entity{
         projectileCounter++;
 
         // Cooldown for player getting hit
-        if (invincible){
-            invincibleCounter++;
-            if(invincibleCounter > 60) { // Removes invincibility after one second
-                invincible = false;
-                invincibleCounter = 0;
-            }
-        }
+        checkInvincibility(this);
     }
 
     /**
@@ -179,10 +186,16 @@ public class Player extends Entity{
 
         // If index is 999, character haven't collided with any object
         if (index != 999) {
+            /*
+                If the player collides with a spaceship parts (i.e. gear), then add 300 points to their score,
+                increment the variable that keeps count of the number of parts collected (partsCollected)
+             */
             gp.playSE(4);
             score += 300;
             partsCollected++;
             gp.spaceshipPart[index] = null;
+
+            //If the player has collected all parts present on the map, show an opened door
             if (partsCollected == gp.userInterface.commandLevel * 1 + 2) {
                 gp.closedDoor[0] = null;
             }
@@ -196,6 +209,9 @@ public class Player extends Entity{
     public void pickUpDiamond(int index) {
 
         // If index is 999, character haven't collided with any object
+        /*
+            If players collides with diamond, add 500 points from it and remove the diamond from the map
+         */
         if (index != 999) {
             gp.playSE(1);
             score += 500;
@@ -208,7 +224,13 @@ public class Player extends Entity{
      * @param index If index is 999, character haven't collided with any object.
      */
     public void collideBlackhole(int index) {
+        /*
+            checking to see if a collision between player and a blackhole has occured
+        */
         if (index != 999) {
+            /*
+                If collision has occured, make player temporarily invincible and remove the blackhole from the map
+             */
             if (!invincible){
                 invincible = true;
             }
@@ -223,6 +245,10 @@ public class Player extends Entity{
      * @param index If index is 999, character haven't collided with any object.
      */
     public void collideOpenedDoor(int index) {
+
+        /*
+            No collision detected between player and another object
+         */
         if (index != 999) {
             if (partsCollected == gp.userInterface.commandLevel * 1 + 2) {
                 gp.currentGameState = gp.winState;
@@ -230,19 +256,46 @@ public class Player extends Entity{
 
                 int currentTopScore = -1;
 
-                try (BufferedReader buffer = new BufferedReader(new FileReader("topScore.txt"))) {
+                /*
+                    Based on the "command" level, chose the correct topScore file to write to
+                 */
+                String fileToBeWrittenTo = "topScore.txt";
+                if (gp.userInterface.commandLevel == 0) {
+                    fileToBeWrittenTo = "topScore.txt";
+                }
+                else if (gp.userInterface.commandLevel == 1) {
+                    fileToBeWrittenTo = "topScoreMed.txt";
+                }
+                else if (gp.userInterface.commandLevel == 2) {
+                    fileToBeWrittenTo = "topScoreHard.txt";
+                }
+
+                /*
+                    Retrieve the current top score
+                    Since there are many, you have to specify the "command" level
+                    to target the correct file
+                 */
+                try (BufferedReader buffer = new BufferedReader(new FileReader(fileToBeWrittenTo))) {
                     String temp = buffer.readLine();
                     currentTopScore = Integer.parseInt(temp);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
+                /*
+                    If the players score is greater than the current top score for that difficulty
+                    , overwrite the current top score with the players score
+                 */
                 if (score > currentTopScore) {
                     currentTopScore = score;
                 }
 
+
+                /*
+                    Write the new topScore to the corresponding topScore file (based on command level)
+                 */
                 try {
-                    PrintWriter writer = new PrintWriter("topScore.txt", StandardCharsets.UTF_8);
+                    PrintWriter writer = new PrintWriter(fileToBeWrittenTo, StandardCharsets.UTF_8);
                     writer.println(currentTopScore);
                     writer.close();
                 }
@@ -258,12 +311,20 @@ public class Player extends Entity{
      * @param i If index is 999, character haven't collided with any object.
      */
     public void damageAlien(int i) {
+        /*
+            If i is 999, no collisiion has occured
+        */
         if (i != 999) {
+            /*
+                checking to see if alien is temporarily invincible (which only happens when the alien has been recently damaged)
+             */
             if(!gp.alien[i].invincible) {
+                /*
+                    if alien is in vulnerable state, tell it to remove half its life and make it temporarily invincible
+                 */
                 gp.playSE(5);
                 gp.alien[i].score -= 1;
                 gp.alien[i].invincible = true;
-                gp.alien[i].damageReaction();
 
                 if(gp.alien[i].score < 0) {
                     gp.alien[i].dying = true;
@@ -273,6 +334,10 @@ public class Player extends Entity{
     }
 
     public void playerReset() {
+        /*
+            Reset player attributes and behaviour
+            This is called whenever the gameloop terminates or needs to restart
+         */
         worldX = 48;
         worldY = 48;
         direction = "down";

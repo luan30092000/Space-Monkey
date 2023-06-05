@@ -25,27 +25,54 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
-        //Title State
+        /*
+            Game always starts on the title screen when first loaded
+         */
         if(gp.currentGameState == gp.titleState) {
+            /*
+                First two if blocks following this comment are there for option selection
+             */
+
+            /*
+                If the "Exit" option is selected and player presses up,
+                then put the cursor on the "New game" option
+             */
             if (code == KeyEvent.VK_W && gp.userInterface.commandNumTitleScreen == 1) {
                 gp.userInterface.commandNumTitleScreen--;
                 gp.playSE(0);
             }
+
+            /*
+                If the "New Game" option is selected and player pressed down,
+                then put the cursor on the "Exit" option
+             */
             if (code == KeyEvent.VK_S && gp.userInterface.commandNumTitleScreen == 0) {
                 gp.userInterface.commandNumTitleScreen++;
                 gp.playSE(0);
             }
 
+            /*
+                The next 3 if blocks are there to set the difficulty level via the title screen
+
+             */
             if (code == KeyEvent.VK_1) {
+                /*
+                    If user selects "1" then set the game to the easiest mode
+                 */
                 gp.userInterface.commandLevel = 0;
             }
             if (code == KeyEvent.VK_2) {
+                // If user selects "2" then set the game to the medium-difficulty mode
                 gp.userInterface.commandLevel = 1;
             }
             if (code == KeyEvent.VK_3) {
+                // If user selects "3" then set the game to the hardest mode
                 gp.userInterface.commandLevel = 2;
             }
 
+            /*
+                If the user presses enter on the title screen, then they are content with their option choices
+             */
             if (code == KeyEvent.VK_ENTER) {
                 if (gp.userInterface.commandNumTitleScreen == 0) {
                     gp.playSE(9);
@@ -61,6 +88,9 @@ public class KeyHandler implements KeyListener {
 
 
         //retry when in lost state
+        /*
+            No matter the state, if the game loop ends, you can press enter to start it up again
+         */
         if(gp.currentGameState == gp.loseState || gp.currentGameState == gp.winState) {
             if (code == KeyEvent.VK_ENTER) {
                 if (gp.currentGameState == gp.loseState) {
@@ -75,25 +105,15 @@ public class KeyHandler implements KeyListener {
             }
         }
 
-
-        if(code == KeyEvent.VK_W) {
-            upPressed = true;
-        }
-
-        if(code == KeyEvent.VK_S) {
-            downPressed = true;
-        }
-
-        if(code == KeyEvent.VK_A) {
-            leftPressed = true;
-        }
-
-        if(code == KeyEvent.VK_D) {
-            rightPressed = true;
-        }
-
-        if(code == KeyEvent.VK_SPACE) {
-            spacePressed = true;
+        /*
+            General key bindings
+         */
+        switch (code) {
+            case KeyEvent.VK_W -> upPressed = true;
+            case KeyEvent.VK_S -> downPressed = true;
+            case KeyEvent.VK_A -> leftPressed = true;
+            case KeyEvent.VK_D -> rightPressed = true;
+            case KeyEvent.VK_SPACE -> spacePressed = true;
         }
 
         //Pause State
@@ -118,7 +138,6 @@ public class KeyHandler implements KeyListener {
                 switch (gp.userInterface.commandNumPauseScreen) {
                     case 0 -> {
                         gp.currentGameState = gp.playingState;
-
                     }
                     case 1 -> {
                         gp.setupGame();
@@ -132,28 +151,17 @@ public class KeyHandler implements KeyListener {
         }
     }
 
+    /*
+        General bindings for keys (when they are released)
+     */
     public void keyReleased(KeyEvent e)
     {
-        int code = e.getKeyCode();
-
-        if(code == KeyEvent.VK_W) {
-            upPressed = false;
-        }
-
-        if(code == KeyEvent.VK_S) {
-            downPressed = false;
-        }
-
-        if(code == KeyEvent.VK_A) {
-            leftPressed = false;
-        }
-
-        if(code == KeyEvent.VK_D) {
-            rightPressed = false;
-        }
-
-        if(code == KeyEvent.VK_SPACE) {
-            spacePressed = false;
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_W -> upPressed = false;
+            case KeyEvent.VK_S -> downPressed = false;
+            case KeyEvent.VK_A -> leftPressed = false;
+            case KeyEvent.VK_D -> rightPressed = false;
+            case KeyEvent.VK_SPACE -> spacePressed = false;
         }
     }
 }

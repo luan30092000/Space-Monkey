@@ -41,7 +41,7 @@ public class EntityTest {
 
         assertFalse(entity.invincible);
         assertFalse(entity.onPath);
-        assertFalse(entity.alive);
+        assertTrue(entity.alive);
         assertFalse(entity.dying);
         assertEquals(0, entity.dyingCounter);
     }

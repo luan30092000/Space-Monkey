@@ -50,21 +50,15 @@ public class Entity {
 
     public void setAction() {}
 
-    public void damageReaction() {}
-
     /**
      * This method is for checking collision.
      */
     public void checkCollision(){
         collisionDetected = false;
         gp.collisionChecker.checkTile(this);
-        if (type == 0){
-            gp.collisionChecker.checkSpaceshipPart(this, false);
-            gp.collisionChecker.checkEntity(this, gp.alien);
-        }
 
-        boolean playerCollision = gp.collisionChecker.checkPlayer(this);
         if(type == 2){
+            boolean playerCollision = gp.collisionChecker.checkPlayer(this);
             if(!playerCollision){
                 collisionDetected = false;
             }
@@ -76,6 +70,16 @@ public class Entity {
                 case "down" -> worldY += speed;
                 case "left" -> worldX -= speed;
                 case "right" -> worldX += speed;
+            }
+        }
+    }
+
+    public void checkInvincibility(Entity e){
+        if (e.invincible){
+            e.invincibleCounter++;
+            if(e.invincibleCounter > 60) { // Removes invincibility after one second
+                e.invincible = false;
+                e.invincibleCounter = 0;
             }
         }
     }

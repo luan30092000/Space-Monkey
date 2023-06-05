@@ -207,8 +207,8 @@ class CollisionCheckerTest {
         alien.worldY = 48 + gp.tileSize;
 
         OBJ_Blackhole blackhole = new OBJ_Blackhole(gp);
-        blackhole.worldX = 48;
-        blackhole.worldY = 48;
+        blackhole.objectX = 48;
+        blackhole.objectY = 48;
 
         int initialScore = alien.score;
 

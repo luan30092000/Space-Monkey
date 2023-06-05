@@ -70,11 +70,8 @@ public class PathfinderTest {
     @Test
     void getCostTest() {
         Pathfinder pf = new Pathfinder(gp);
-        pf.startNode.col = 1;
-        pf.startNode.row = 1;
-
-        pf.goalNode.col = 1;
-        pf.goalNode.row = 3;
+        pf.startNode = pf.node[1][1];
+        pf.goalNode = pf.node[1][3];
 
         pf.getCost(pf.node[1][1]);
         assertEquals(0, pf.node[1][1].gCost);

@@ -75,7 +75,7 @@ public class AlienTest {
     @Test
     void actionLockOffTest() {
         Alien alien = new Alien(gp);
-        alien.actionLockCounter = 120;
+        alien.actionLockCounter = 119;
 
         alien.setAction();
         assertEquals(0, alien.actionLockCounter); // Counter should reset to 0 after switching direction

@@ -2,7 +2,6 @@ package Entity;
 
 import Game.GamePanel;
 
-import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -63,12 +62,17 @@ public class Alien extends Entity {
      */
     public void update() {
         super.update();
+        if(invincible){
+            speed = 1;
+        }
+        else{
+            speed = 2;
+        }
 
         boolean collidedPlayer = gp.collisionChecker.checkPlayer(this);
         if (collidedPlayer) {
             if (!gp.player.invincible) {
                 gp.player.score = -1;
-                gp.stopMusic();
                 gp.playSE(2);
             }
         }
@@ -81,13 +85,7 @@ public class Alien extends Entity {
             onPath = true;
         }
 
-        if (invincible) { // Invincibility for alien
-            invincibleCounter++;
-            if (invincibleCounter > 40) { // Removes invincibility after one second
-                invincible = false;
-                invincibleCounter = 0;
-            }
-        }
+        checkInvincibility(this);
     }
 
     /**
@@ -126,26 +124,6 @@ public class Alien extends Entity {
 
                 actionLockCounter = 0;
             }
-        }
-    }
-
-    /**
-     * This method is for setting damage reaction.
-     */
-    public void damageReaction() {
-        actionLockCounter = 0;
-        direction = gp.player.direction;
-        if (Objects.equals(direction, "up")){
-            worldY -= 5;
-        }
-        else if (Objects.equals(direction, "down")){
-            worldY += 5;
-        }
-        else if (Objects.equals(direction, "left")){
-            worldX -= 5;
-        }
-        else if (Objects.equals(direction, "right")){
-            worldX += 5;
         }
     }
 }

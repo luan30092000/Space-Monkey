@@ -2,7 +2,6 @@ package Game;
 import Objects.*;
 import Entity.*;
 
-import java.util.AbstractMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -10,6 +9,17 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author Jason
  * @author Ryan
  */
+
+class Coordinates {
+    public int xVal;
+    public int yVal;
+
+    public Coordinates(int xVal, int yVal) {
+        this.xVal = xVal;
+        this.yVal = yVal;
+    }
+}
+
 public class AssetSetter {
 
     GamePanel gp;
@@ -22,36 +32,29 @@ public class AssetSetter {
         this.gp = gp;
     }
 
+    private Coordinates getRandomCoords(int origin, int bound) {
+        int randomIdx = ThreadLocalRandom.current().nextInt(origin, bound);
+        int randomX = Integer.parseInt(gp.listOfValidCoords.toArray()[randomIdx].toString().split("=")[0]);
+        int randomY = Integer.parseInt(gp.listOfValidCoords.toArray()[randomIdx].toString().split("=")[1]);
+        Coordinates randomCoords = new Coordinates(randomX, randomY);
+
+        return randomCoords;
+    }
+
     /**
      * This method is for making a key object and save into obj array,
      * and Set location for object on map.
      */
     public void setSpaceshipPart() {
-//        gp.spaceshipPart[0] = new OBJ_SpaceshipPart(gp); // Make a key object and save into obj array
-//        gp.spaceshipPart[0].worldX = 7 * gp.tileSize; // Set location for obj on map
-//        gp.spaceshipPart[0].worldY = 10 * gp.tileSize;
-//
-//        gp.spaceshipPart[1] = new OBJ_SpaceshipPart(gp); // Make a key object and save into obj array
-//        gp.spaceshipPart[1].worldX = 18 * gp.tileSize; // Set location for obj on map
-//        gp.spaceshipPart[1].worldY = gp.tileSize;
+
         int numShipPart = gp.userInterface.commandLevel * 1 + 2;
 
         for (int i = 0; i < numShipPart; i++) {
             gp.spaceshipPart[i] = new OBJ_SpaceshipPart(gp);
-            boolean validLocation = false;
-            int randomX = 0;
-            int randomY = 0;
 
-            while (!validLocation) {
-                randomX = ThreadLocalRandom.current().nextInt(1, 30);
-                randomY = ThreadLocalRandom.current().nextInt(1, 14);
-                AbstractMap.SimpleEntry<Integer, Integer> newCoords = new AbstractMap.SimpleEntry<>(randomX, randomY);
-                if (!gp.listOfRockCoords.contains(newCoords)) {
-                    validLocation = true;
-                }
-            }
-            gp.spaceshipPart[i].worldX = randomX * gp.tileSize;
-            gp.spaceshipPart[i].worldY = randomY * gp.tileSize;
+            Coordinates randomCoords = getRandomCoords(0, 258);
+            gp.spaceshipPart[i].objectX = randomCoords.xVal * gp.tileSize;
+            gp.spaceshipPart[i].objectY = randomCoords.yVal * gp.tileSize;
         }
     }
 
@@ -62,12 +65,12 @@ public class AssetSetter {
     public void setDiamond() {
 
         gp.diamond.add(new OBJ_Diamond(gp));
-        gp.diamond.get(gp.diamond.size()-1).worldX = 20 * gp.tileSize;
-        gp.diamond.get(gp.diamond.size()-1).worldY = 4 * gp.tileSize;
+        gp.diamond.get(gp.diamond.size()-1).objectX = 20 * gp.tileSize;
+        gp.diamond.get(gp.diamond.size()-1).objectY = 4 * gp.tileSize;
 
         gp.diamond.add(new OBJ_Diamond(gp));
-        gp.diamond.get(gp.diamond.size()-1).worldX = 7 * gp.tileSize;
-        gp.diamond.get(gp.diamond.size()-1).worldY = 5 * gp.tileSize;
+        gp.diamond.get(gp.diamond.size()-1).objectX = 7 * gp.tileSize;
+        gp.diamond.get(gp.diamond.size()-1).objectY = 5 * gp.tileSize;
 
     }
 
@@ -76,18 +79,6 @@ public class AssetSetter {
      * and Set location for object on map.
      */
     public void setBlackhole() {
-
-//        gp.blackhole[0] = new OBJ_Blackhole(gp); // Make a key object and save into obj array
-//        gp.blackhole[0].worldX = 20 * gp.tileSize; // Set location for obj on map
-//        gp.blackhole[0].worldY = 5 * gp.tileSize;
-//
-//        gp.blackhole[1] = new OBJ_Blackhole(gp); // Make a key object and save into obj array
-//        gp.blackhole[1].worldX = 8 * gp.tileSize; // Set location for obj on map
-//        gp.blackhole[1].worldY = 7 * gp.tileSize;
-//
-//        gp.blackhole[2] = new OBJ_Blackhole(gp); // Make a key object and save into obj array
-//        gp.blackhole[2].worldX = 27 * gp.tileSize; // Set location for obj on map
-//        gp.blackhole[2].worldY = 9 * gp.tileSize;
 
         int numBlackholes = ThreadLocalRandom.current().nextInt(2,7);
         if (gp.userInterface.commandLevel == 0) {
@@ -100,20 +91,10 @@ public class AssetSetter {
 
         for (int i = 0; i < numBlackholes; i++) {
             gp.blackhole[i] = new OBJ_Blackhole(gp);
-            boolean validLocation = false;
-            int randomX = 0;
-            int randomY = 0;
 
-            while (!validLocation) {
-                randomX = ThreadLocalRandom.current().nextInt(3, 30);
-                randomY = ThreadLocalRandom.current().nextInt(3, 15);
-                AbstractMap.SimpleEntry<Integer, Integer> newCoords = new AbstractMap.SimpleEntry<>(randomX, randomY);
-                if (!gp.listOfRockCoords.contains(newCoords)) {
-                    validLocation = true;
-                }
-            }
-            gp.blackhole[i].worldX = randomX * gp.tileSize;
-            gp.blackhole[i].worldY = randomY * gp.tileSize;
+            Coordinates randomCoords = getRandomCoords(0, 258);
+            gp.blackhole[i].objectX = randomCoords.xVal * gp.tileSize;
+            gp.blackhole[i].objectY = randomCoords.yVal * gp.tileSize;
         }
     }
 
@@ -124,22 +105,12 @@ public class AssetSetter {
     public void setDoor() {
         gp.closedDoor[0] = new OBJ_ClosedDoor(gp);
         gp.openedDoor[0] = new OBJ_OpenedDoor(gp);
-        boolean validLocation = false;
-        int randomX = 0;
-        int randomY = 0;
 
-        while (!validLocation) {
-            randomX = ThreadLocalRandom.current().nextInt(3, 30);
-            randomY = ThreadLocalRandom.current().nextInt(3, 15);
-            AbstractMap.SimpleEntry<Integer, Integer> newCoords = new AbstractMap.SimpleEntry<>(randomX, randomY);
-            if (!gp.listOfRockCoords.contains(newCoords)) {
-                validLocation = true;
-            }
-        }
-        gp.openedDoor[0].worldX = randomX * gp.tileSize;
-        gp.openedDoor[0].worldY = randomY * gp.tileSize;
-        gp.closedDoor[0].worldX = randomX * gp.tileSize;
-        gp.closedDoor[0].worldY = randomY * gp.tileSize;
+        Coordinates randomCoords = getRandomCoords(0, 258);
+        gp.openedDoor[0].objectX = randomCoords.xVal * gp.tileSize;
+        gp.openedDoor[0].objectY = randomCoords.yVal * gp.tileSize;
+        gp.closedDoor[0].objectX = randomCoords.xVal * gp.tileSize;
+        gp.closedDoor[0].objectY = randomCoords.yVal * gp.tileSize;
     }
 
     /**
@@ -187,5 +158,31 @@ public class AssetSetter {
         gp.alien[index].worldY = 14 * gp.tileSize;
         gp.alien[index].direction = "left";
     }
+
+    /**
+     * This method is for making new Alien object and save into obj array,
+     * Set location for object on map.
+     * @param index array position.
+     */
+    public void newAlien3(int index) {
+        gp.alien[index] = new Alien(gp); // Make a key object and save into obj array
+        gp.alien[index].worldX = gp.tileSize; // Set location for obj on map
+        gp.alien[index].worldY = 14 * gp.tileSize;
+        gp.alien[index].direction = "left";
+    }
+
+    /**
+     * This method is for making new Alien object and save into obj array,
+     * Set location for object on map.
+     * @param index array position.
+     */
+    public void newAlien4(int index) {
+        gp.alien[index] = new Alien(gp); // Make a key object and save into obj array
+        gp.alien[index].worldX = 30 * gp.tileSize; // Set location for obj on map
+        gp.alien[index].worldY = gp.tileSize;
+        gp.alien[index].direction = "left";
+    }
+
+
 
 }

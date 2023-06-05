@@ -17,8 +17,17 @@ import java.util.Objects;
  * @author Ryan
  */
 public class TileManager {
+    /**
+     * Varaibale name
+     */
     GamePanel gp;
+    /**
+     * Tile array
+     */
     public Tile [] tile;
+    /**
+     * Map tile array
+     */
     public int[][] mapTileNum;
 
     /**

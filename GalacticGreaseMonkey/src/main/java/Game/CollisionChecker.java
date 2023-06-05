@@ -120,8 +120,8 @@ public class CollisionChecker {
                 entity.hitBox.y = entity.worldY + entity.hitBox.y;
 
                 // Get object's solid area position
-                gp.spaceshipPart[i].hitBox.x = gp.spaceshipPart[i].worldX + gp.spaceshipPart[i].hitBox.x;
-                gp.spaceshipPart[i].hitBox.y = gp.spaceshipPart[i].worldY + gp.spaceshipPart[i].hitBox.y;
+                gp.spaceshipPart[i].hitBox.x = gp.spaceshipPart[i].objectX + gp.spaceshipPart[i].hitBox.x;
+                gp.spaceshipPart[i].hitBox.y = gp.spaceshipPart[i].objectY + gp.spaceshipPart[i].hitBox.y;
 
                 switch (entity.direction) {
                     case "up" -> entity.hitBox.y -= entity.speed;
@@ -140,8 +140,8 @@ public class CollisionChecker {
 
                 entity.hitBox.x = entity.solidAreaDefaultX;
                 entity.hitBox.y = entity.solidAreaDefaultY;
-                gp.spaceshipPart[i].hitBox.x = gp.spaceshipPart[i].solidAreaDefaultX;
-                gp.spaceshipPart[i].hitBox.y = gp.spaceshipPart[i].solidAreaDefaultY;
+                gp.spaceshipPart[i].hitBox.x = gp.spaceshipPart[i].hitBoxDefaultX;
+                gp.spaceshipPart[i].hitBox.y = gp.spaceshipPart[i].hitBoxDefaultY;
             }
         }
         return index;
@@ -164,8 +164,8 @@ public class CollisionChecker {
                 entity.hitBox.y = entity.worldY + entity.hitBox.y;
 
                 // Get object's solid area position
-                gp.diamond.get(i).hitBox.x = gp.diamond.get(i).worldX + gp.diamond.get(i).hitBox.x;
-                gp.diamond.get(i).hitBox.y = gp.diamond.get(i).worldY + gp.diamond.get(i).hitBox.y;
+                gp.diamond.get(i).hitBox.x = gp.diamond.get(i).objectX + gp.diamond.get(i).hitBox.x;
+                gp.diamond.get(i).hitBox.y = gp.diamond.get(i).objectY + gp.diamond.get(i).hitBox.y;
 
                 switch (entity.direction) {
                     case "up" -> entity.hitBox.y -= entity.speed;
@@ -184,8 +184,8 @@ public class CollisionChecker {
 
                 entity.hitBox.x = entity.solidAreaDefaultX;
                 entity.hitBox.y = entity.solidAreaDefaultY;
-                gp.diamond.get(i).hitBox.x = gp.diamond.get(i).solidAreaDefaultX;
-                gp.diamond.get(i).hitBox.y = gp.diamond.get(i).solidAreaDefaultY;
+                gp.diamond.get(i).hitBox.x = gp.diamond.get(i).hitBoxDefaultX;
+                gp.diamond.get(i).hitBox.y = gp.diamond.get(i).hitBoxDefaultY;
             }
         }
         return index;
@@ -208,8 +208,8 @@ public class CollisionChecker {
                 entity.hitBox.y = entity.worldY + entity.hitBox.y;
 
                 // Get object's solid area position
-                gp.blackhole[i].hitBox.x = gp.blackhole[i].worldX + gp.blackhole[i].hitBox.x;
-                gp.blackhole[i].hitBox.y = gp.blackhole[i].worldY + gp.blackhole[i].hitBox.y;
+                gp.blackhole[i].hitBox.x = gp.blackhole[i].objectX + gp.blackhole[i].hitBox.x;
+                gp.blackhole[i].hitBox.y = gp.blackhole[i].objectY + gp.blackhole[i].hitBox.y;
 
                 switch (entity.direction) {
                     case "up" -> entity.hitBox.y -= entity.speed;
@@ -228,8 +228,8 @@ public class CollisionChecker {
 
                 entity.hitBox.x = entity.solidAreaDefaultX;
                 entity.hitBox.y = entity.solidAreaDefaultY;
-                gp.blackhole[i].hitBox.x = gp.blackhole[i].solidAreaDefaultX;
-                gp.blackhole[i].hitBox.y = gp.blackhole[i].solidAreaDefaultY;
+                gp.blackhole[i].hitBox.x = gp.blackhole[i].hitBoxDefaultX;
+                gp.blackhole[i].hitBox.y = gp.blackhole[i].hitBoxDefaultY;
             }
         }
         return index;
@@ -249,8 +249,8 @@ public class CollisionChecker {
                 entity.hitBox.x = entity.worldX + entity.hitBox.x;
                 entity.hitBox.y = entity.worldY + entity.hitBox.y;
 
-                gp.openedDoor[i].hitBox.x = gp.openedDoor[i].worldX + gp.openedDoor[i].hitBox.x;
-                gp.openedDoor[i].hitBox.y = gp.openedDoor[i].worldY + gp.openedDoor[i].hitBox.y;
+                gp.openedDoor[i].hitBox.x = gp.openedDoor[i].objectX + gp.openedDoor[i].hitBox.x;
+                gp.openedDoor[i].hitBox.y = gp.openedDoor[i].objectY + gp.openedDoor[i].hitBox.y;
 
                 switch (entity.direction) {
                     case "up" -> entity.hitBox.y -= entity.speed;
@@ -269,8 +269,8 @@ public class CollisionChecker {
 
                 entity.hitBox.x = entity.solidAreaDefaultX;
                 entity.hitBox.y = entity.solidAreaDefaultY;
-                gp.openedDoor[i].hitBox.x = gp.openedDoor[i].solidAreaDefaultX;
-                gp.openedDoor[i].hitBox.y = gp.openedDoor[i].solidAreaDefaultY;
+                gp.openedDoor[i].hitBox.x = gp.openedDoor[i].hitBoxDefaultX;
+                gp.openedDoor[i].hitBox.y = gp.openedDoor[i].hitBoxDefaultY;
             }
         }
         return index;

@@ -16,7 +16,7 @@ public class OBJ_Blackhole extends GameObject {
         super(gp);
 
         name = "Blackhole";
-        down1 = setup("/object/blackhole");
+        objectImage = setup("/object/blackhole");
         collision = false;
     }
 }

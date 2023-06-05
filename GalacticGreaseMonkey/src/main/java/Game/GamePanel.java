@@ -1,4 +1,4 @@
-package Game;
+ package Game;
 import Objects.OBJ_Diamond;
 
 import AI.Pathfinder;
@@ -55,13 +55,13 @@ public class GamePanel extends JPanel implements Runnable {
 
     public GameObject[] spaceshipPart = new GameObject[10]; // 10 slots for object allocation
     public ArrayList<OBJ_Diamond> diamond = new ArrayList<>();
-    public Alien[] alien = new Alien[5];
+    public Alien[] alien = new Alien[8];
     public GameObject[] blackhole = new GameObject[10]; // 10 slots for object allocation
     public ArrayList<Entity> projectileList = new ArrayList<>();
     public GameObject[] closedDoor = new GameObject[1];
     public GameObject[] openedDoor = new GameObject[1];   //Open Door after obtain 2 keys
 
-    List<AbstractMap.SimpleEntry<Integer, Integer>> listOfRockCoords = new ArrayList<>();
+    List<AbstractMap.SimpleEntry<Integer, Integer>> listOfValidCoords = new ArrayList<>();
     public int diamondSpawnTime = 0;
     public int alienSpawnTime = 0;
     int alienSpawnNum = 1;
@@ -92,6 +92,20 @@ public class GamePanel extends JPanel implements Runnable {
      * This method is for setting game object.
      */
     public void setupGame() {
+        //starting position and direction
+        player.playerReset();
+        diamond.clear();
+
+        //find all tiles that are valid
+        for (int i=0; i<maxScreenCol; i++) {
+            for (int j=0; j<maxScreenRow; j++) {
+                if (tileManager.mapTileNum[i][j] != 1 && tileManager.mapTileNum[i][j] != 2) {
+                    AbstractMap.SimpleEntry<Integer, Integer> rockCoords = new AbstractMap.SimpleEntry<>(i, j);
+                    listOfValidCoords.add(rockCoords);
+                }
+            }
+        }
+
         aSetter.setSpaceshipPart();
         aSetter.setAlien();
         aSetter.setBlackhole();
@@ -99,21 +113,7 @@ public class GamePanel extends JPanel implements Runnable {
         aSetter.setDoor(); // Open door is behind close door
         aSetter.setDoor();
 
-
-        //starting position and direction
-        player.playerReset();
-
         currentGameState = titleState;
-
-        //find all tiles that are walls or rocks
-        for (int i=0; i<maxScreenCol; i++) {
-            for (int j=0; j<maxScreenRow; j++) {
-                if (tileManager.mapTileNum[i][j] == 1 || tileManager.mapTileNum[i][j] == 2) {
-                    AbstractMap.SimpleEntry<Integer, Integer> rockCoords = new AbstractMap.SimpleEntry<>(i, j);
-                    listOfRockCoords.add(rockCoords);
-                }
-            }
-        }
     }
 
     /**
@@ -192,16 +192,14 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             }
 
-            if(alienSpawnTime > 120){
+            if(alienSpawnTime > 600/(1+userInterface.commandLevel)){
                 boolean canSpawn = false;
                 int i = 0;
 
                 while(i < alien.length && !canSpawn) {
                     if (alien[i] == null){
-                        if (alienSpawnNum == 1){
-                            alienSpawnNum = 2;
-                        }
-                        else if (alienSpawnNum == 2){
+                        alienSpawnNum++;
+                        if (alienSpawnNum > 4){
                             alienSpawnNum = 1;
                         }
                         canSpawn = true;
@@ -213,8 +211,14 @@ public class GamePanel extends JPanel implements Runnable {
                     if(alienSpawnNum == 1){
                         aSetter.newAlien(i);
                     }
-                    else {
+                    else if(alienSpawnNum == 2) {
                         aSetter.newAlien2(i);
+                    }
+                    else if(alienSpawnNum == 3){
+                        aSetter.newAlien3(i);
+                    }
+                    else {
+                        aSetter.newAlien4(i);
                     }
                     alienSpawnTime = 0;
                 }
@@ -233,27 +237,20 @@ public class GamePanel extends JPanel implements Runnable {
             //Spawn diamonds every 100 frames
             diamondSpawnTime++;
             if (diamondSpawnTime == 100) {
-                boolean spawnLocationValid = false;
-                int randomWorldX = 0;
-                int randomWorldY = 0;
-                while (!spawnLocationValid) {
-                    randomWorldX = ThreadLocalRandom.current().nextInt(0, 32 + 1);
-                    randomWorldY = ThreadLocalRandom.current().nextInt(0, 16 + 1);
-                    AbstractMap.SimpleEntry<Integer, Integer> newCoords = new AbstractMap.SimpleEntry<>(randomWorldX, randomWorldY);
-                    if( !listOfRockCoords.contains(newCoords)) {
-                        spawnLocationValid = true;
-                    }
-                }
+                int randomIdx = ThreadLocalRandom.current().nextInt(0, 516);
+                int randomWorldX = Integer.parseInt(listOfValidCoords.toArray()[randomIdx].toString().split("=")[0]);
+                int randomWorldY = Integer.parseInt(listOfValidCoords.toArray()[randomIdx].toString().split("=")[1]);
 
                 OBJ_Diamond newDiamond = new OBJ_Diamond(this);
-                newDiamond.worldX = randomWorldX * tileSize;
-                newDiamond.worldY = randomWorldY * tileSize;
+                newDiamond.objectX = randomWorldX * tileSize;
+                newDiamond.objectY = randomWorldY * tileSize;
 
                 diamond.add(newDiamond);
                 diamondSpawnTime = 0;
             }
             if (player.score < 0){
                 currentGameState = loseState;
+                Arrays.fill(alien, null);
             }
         }
     }
@@ -320,16 +317,6 @@ public class GamePanel extends JPanel implements Runnable {
             //draw UI (includes only pause screen currently)
             userInterface.draw(g2);
         }
-    }
-
-    public void playMusic(int i){
-        sound.setFile(i);
-        sound.play();
-        sound.loop();
-    }
-
-    public void stopMusic(){
-        sound.stop();
     }
 
     public void playSE(int i){

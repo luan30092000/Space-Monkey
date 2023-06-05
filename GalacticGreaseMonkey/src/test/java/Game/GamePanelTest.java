@@ -24,8 +24,9 @@ class GamePanelTest {
 
     @Test
     void gameOverTest() {
-        player.score = -1;
-        player.update();
+        gp.currentGameState = gp.playingState;
+        gp.player.score = -1;
+        gp.update();
         assertEquals(gp.loseState, gp.currentGameState);
     }
 
@@ -34,7 +35,9 @@ class GamePanelTest {
         KeyEvent pauseKey = new KeyEvent(gp, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0,  KeyEvent.VK_P,'P');
         gp.getKeyListeners()[0].keyPressed(pauseKey);
 
+        gp.currentGameState = 1;
         keyHandler.keyPressed(pauseKey);
+        gp.update();
         assertEquals(gp.pausedState, gp.currentGameState);
     }
 
