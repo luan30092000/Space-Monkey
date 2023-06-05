@@ -1,8 +1,8 @@
-#2D SHOOTING GAME
+# 2D SHOOTING GAME
 
 This is a 2D game implemented in Java, designed using various software development tools and frameworks.
 
-#Description
+# Description
 
 The 2D game project is a Java-based game that offers an immersive gaming experience. It includes several features and functionalities to engage the players. The game utilizes applied design patterns such as Builder, Abstract Factory, and Singleton to ensure modularity and maintainability. The graphical user interface (GUI) of the game is designed using Swing and AWT frameworks, providing an intuitive and interactive experience.
 Installation
@@ -19,14 +19,14 @@ To run the game on your local machine, follow these steps:
 
     Run the game by executing the main class.
 
-Features
+# Features
 
     Feature 1: Game setting GUI
     Feature 2: 3 levels of the game
     Feature 3: Instant restart
 
 
-Design Patterns
+# Design Patterns
 
 The project incorporates the following design patterns:
 
@@ -36,14 +36,14 @@ The project incorporates the following design patterns:
 
     Singleton Pattern: This pattern ensures that only one instance of a class exists throughout the game and provides a global access point to that instance. It is used to manage game-wide settings and resources.
 
-Contributors
+# Contributors
 
     Luan Nguyen (@luan30092000)
     Jason Gill (@xgill15x)
     Micheal Chen (@xzh1106)
     
 
-License
+# License
 
 This project is licensed under the MIT License.
 Support and Contact
