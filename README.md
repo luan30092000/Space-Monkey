@@ -18,6 +18,15 @@ To run the game on your local machine, follow these steps:
         cd GalacticGreaseMonkey/target
         java -jar GalacticGreaseMonkey-1.1-SNAPSHOT.jar
 
+To view Java documentation reference by HTML, follow these steps:
+
+    Inside 2D_Game folder, open Terminal and enter commands:
+       
+        cd JavaDoc_Eng
+        open .
+    
+    Now open index.html file by browser
+    
 # Features
 
     Feature 1: Game setting GUI
