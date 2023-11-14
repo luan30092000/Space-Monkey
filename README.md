@@ -57,6 +57,4 @@ The project incorporates the following design patterns:
 This project is licensed under the MIT License.
 Support and Contact
 
-If you have any questions, issues, or suggestions regarding the game project, please feel free to contact us at email@example.com.
-
-That's a basic template for your README file. Feel free to customize and expand it with more details about your game, including screenshots, gameplay instructions, and any additional sections that might be relevant to your project.
+If you have any questions, issues, or suggestions regarding the game project, please feel free to contact me at luan_nguyen_3@sfu.ca
